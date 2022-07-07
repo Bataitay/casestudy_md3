@@ -1,0 +1,103 @@
+.chatms{
+    margin-top: -24px;
+}
+.avatar{
+    height: 40px;
+    width: 40px;
+}
+.list-group-item:hover, .list-group-item:focus
+{
+    background: #78b8ec;
+    cursor: pointer;
+
+}
+.card-body {
+    overflow: hidden;
+}
+.chatbox
+{
+    height: 80vh !important;
+    overflow-y: scroll;
+}
+.messager-box
+{
+    height: 70vh !important;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.single-messager{
+    background: #f1f0f0;
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+.received {
+    margin-right: auto !important;
+}
+.sent {
+    margin-left: auto !important;
+    background: #3490dc;
+    color: white !important;
+}
+.sent small{
+    color: white !important;
+}
+.link:hover {
+    list-style: none !important;
+    text-decoration: none;
+}
+.online-icon {
+    font-size: 11px !important;
+}
+.offline-icon {
+    font-size: 11px !important;
+}
+
+
+.form{
+
+    position: relative;
+}
+
+.form .fa-search{
+
+    position: absolute;
+    top:20px;
+    left: 20px;
+
+}
+
+.form button {
+    position: absolute;
+    right: 17px;
+    top: 4px;
+    padding: 2px;
+    border: none;
+    font-size: 29px;
+    color: #3490dc;
+    background: none;
+}
+
+.left-pan{
+    padding-left: 7px;
+}
+
+.left-pan i{
+
+   padding-left: 10px;
+}
+
+.form-input{
+
+    height: 55px;
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.form-input:focus{
+
+    box-shadow: none;
+    border:none;
+}
