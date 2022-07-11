@@ -119,7 +119,6 @@
                         <li>
                             <a class="CHATBOX_open" href="#"> <img src="{{ asset('assets/img/icon/msg.svg') }}"
                                     alt=""> <span>01</span> </a>
-                            @include('Backend.chat.messager')
                         </li>
                     </div>
                     <div class="profile_info">

@@ -1,22 +1,24 @@
 @extends('Backend.main')
 @section('content')
-<div class="col-12">
-    <div class="dashboard_header mb_50">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="dashboard_header_title">
-                    <h5> Chúc {{ Auth::user()->name ?? 'user_name'}} một ngày làm việc vui vẻ!</h5>
+    <div class="col-12">
+        <div class="dashboard_header mb_50">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="dashboard_header_title">
+                        <h5> Chúc {{ Auth::user()->name ?? 'user_name' }} một ngày làm việc vui vẻ!</h5>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="dashboard_breadcam text-end">
-                    <p><a href="index.html">Danh sách Sản Phẩm</a> <i class="fas fa-caret-right"></i> Thêm sản phẩm</p>
+                <div class="col-lg-6">
+                    <div class="dashboard_breadcam text-end">
+                        @can('Product create')
+                            <p><a href="index.html">Danh sách Sản Phẩm</a> <i class="fas fa-caret-right"></i> Thêm sản phẩm</p>
+                        @endcan
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-       <div class="container">
+    <div class="container">
         <div class="row my-5">
             <div class="col-lg-12">
                 <div class="card shadow">
@@ -54,33 +56,39 @@
                                     </tr>
                                 </thead>
                                 <tbody id="myTable">
+
                                     @if ($products->count() > 0)
-                                        @foreach ($products as $product)
-                                            <tr class="item-{{ $product->id }}">
-                                                <td>{{ $product->id }}</td>
-                                                <td>
-                                                    {{ $product->name }}<br>
-                                                    <span class="badge bg-primary" >chip:{{$product->config->chip}}</span>
-                                                    <span class="badge bg-danger" >bộ nhớ{{ $product->config->memory}}</span>
-                                                     <span class="badge bg-warning" >pin:{{ $product->config->pin}}</span>
-                                                </td>
-                                                <td>{{ $product->price }}</td>
-                                                <td>{{ $product->quantity }}</td>
-                                                <td>{{ $product->color }}</td>
+                                            @foreach ($products as $product)
+                                                <tr class="item-{{ $product->id }}">
+                                                    <td>{{ $product->id }}</td>
+                                                    <td>
+                                                        {{ $product->name }}<br>
+                                                        <span
+                                                            class="badge bg-primary">chip:{{ $product->config->chip }}</span>
+                                                        <span class="badge bg-danger">bộ
+                                                            nhớ{{ $product->config->memory }}</span>
+                                                        <span class="badge bg-warning">pin:{{ $product->config->pin }}</span>
+                                                    </td>
+                                                    <td>{{ $product->price }}</td>
+                                                    <td>{{ $product->quantity }}</td>
+                                                    <td>{{ $product->color }}</td>
                                                 <td class="">
                                                     @if (request()->has('view_deleted'))
                                                         <a href="{{ route('product.restore', $product->id) }}"
                                                             class="text-success mx-1 "><i
                                                                 class="bi bi-reply-all h4"></i></a>
                                                     @else
-                                                        <a href="{{ route('product.edit', $product->id) }}"><i
-                                                                class="bi-pencil-square h4"></i></a>
+                                                        @can('Product edit')
+                                                            <a href="{{ route('product.edit', $product->id) }}"><i
+                                                                    class="bi-pencil-square h4"></i></a>
+                                                        @endcan
                                                         <a href="{{ route('product.show', $product->id) }}"><i
                                                                 class="bi bi-eye h4"></i></a>
                                                     @endif
-                                                    <a href="#" id="{{ $product->id }}"
-                                                        class="text-danger mx-1 deleteIcon"><i
-                                                            class="bi-trash h4"></i></a>
+                                                    @can('Product delete')
+                                                        <a href="#" id="{{ $product->id }}"
+                                                            class="text-danger mx-1 deleteIcon"><i class="bi-trash h4"></i></a>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -90,7 +98,6 @@
                                 </tbody>
                             </table>
                             {{ $products->onEachSide(5)->links() }}
-
                         </div>
                     </div>
                 </div>

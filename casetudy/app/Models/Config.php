@@ -9,9 +9,9 @@ class Config extends Model
 {
     protected $table = 'config';
     use HasFactory;
-    public function product()
+    public function products()
     {
-        return $this->hasOne(Config::class, 'config_id', 'id');
+        return $this->hasMany(Config::class, 'config_id', 'id');
 
     }
 }

@@ -4,14 +4,14 @@
         <div class="dashboard_header mb_50">
             <div class="row">
                 <div class="col-lg-6">
-                    @foreach (Auth::user()->unreadNotifications as $notification )
-                    <div class="alert alert-info" role="alert">
-                        {{$notification->data['title']}} : {{$notification->data['content']}}
-                        <a class="btn btn-warning" href="{{ route('readed', $notification->id)}}">Nhận</a>
-                      </div>
-                @endforeach
+                    @foreach (Auth::user()->unreadNotifications as $notification)
+                        <div class="alert alert-info" role="alert">
+                            {{ $notification->data['title'] }} : {{ $notification->data['content'] }}
+                            <a class="btn btn-warning" href="{{ route('readed', $notification->id) }}">Nhận</a>
+                        </div>
+                    @endforeach
                     <div class="dashboard_header_title">
-                        <h5> Chúc {{ Auth::user()->name ?? 'user_name'}} một ngày làm việc vui vẻ!</h5>
+                        <h5> Chúc {{ Auth::user()->name ?? 'user_name' }} một ngày làm việc vui vẻ!</h5>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -22,16 +22,18 @@
             </div>
         </div>
     </div>
-      <div class="container">
+    <div class="container">
         <div class="row my-5">
             <div class="col-lg-12">
                 <div class="card shadow">
                     <div class="card-header bg-secondary  d-flex justify-content-between align-items-center">
                         <h3 class="text-light">Quản lý Danh mục</h3>
                         <div class="card-btn">
-                            <button class="btn btn-light" style="--clr:#ff1867" data-bs-toggle="modal"
-                                data-bs-target="#addCategoryModal"></i><span>Thêm</span><i></i>
-                            </button>
+                            @can('Category create')
+                                <button class="btn btn-light" style="--clr:#ff1867" data-bs-toggle="modal"
+                                    data-bs-target="#addCategoryModal"></i><span>Thêm</span><i></i>
+                                </button>
+                            @endcan
                         </div>
                         @include('Backend.categories.add')
                     </div>
@@ -55,30 +57,39 @@
                                     </tr>
                                 </thead>
                                 <tbody id="myTable">
-                                    @if ($categories->count() > 0)
-                                    @foreach ($categories as $category)
 
-                                        <tr class="item-{{ $category->id }}">
-                                            <td>{{ $category->id }}</td>
-                                            <td>{{ $category->name }}</td>
-                                            <td>{{ $category->products->count() }}</td>
-                                            <td>{{ $category->created_at }}</td>
-                                            <td class="">
-                                                <a href="{{ route('category.edit', $category->id) }}"><i
-                                                        class="bi-pencil-square h4"></i></a>
-                                                <a href="{{ route('category.show', $category->id) }}"><i
-                                                        class="bi bi-eye h4"></i></a>
-                                                <a href="#" id="{{ $category->id }}"
-                                                    class="text-danger mx-1 deleteIcon"><i class="bi-trash h4 h4"></i></a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                    @if ($categories->count() > 0)
+                                        @foreach ($categories as $category)
+                                            <tr class="item-{{ $category->id }}">
+                                                <td>{{ $category->id }}</td>
+                                                <td>{{ $category->name }}</td>
+                                                <td>{{ $category->products->count() }}</td>
+                                                <td>{{ $category->created_at }}</td>
+                                                <td class="">
+                                                    @can('Category update')
+                                                        <a href="{{ route('category.edit', $category->id) }}"><i
+                                                                class="bi-pencil-square h4"></i></a>
+                                                    @endcan
+                                                    @can('Category delete')
+                                                        <a href="#" id="{{ $category->id }}"
+                                                            class="text-danger mx-1 deleteIcon"><i
+                                                                class="bi-trash h4 h4"></i></a>
+                                                    @endcan
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     @else
-                                    <h5 class="text-center text-secondary my-5">Chưa có dữ liệu!</h5>;
-                                @endif
+                                        <h5 class="text-center text-secondary my-5">Chưa có dữ liệu!</h5>
+                                    @endif
                                 </tbody>
                             </table>
-                            {{-- {{ $categories->appends(request()->query()) }} --}}
+                            <nav aria-label="Page navigation example">
+                                <div class='float:right'>
+                                    <ul class="pagination">
+                                        <span aria-hidden="true"> {{ $categories->links() }}</span>
+                                    </ul>
+                                </div>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -90,8 +101,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-
-    $(document).on('click', '.deleteIcon', function(e) {
+        $(document).on('click', '.deleteIcon', function(e) {
             e.preventDefault();
             let id = $(this).attr('id');
             let csrf = '{{ csrf_token() }}';

@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Log;
 
 class productController extends Controller
 {
+    function __construct()
+    {
+        // $this->middleware('role_or_permission:Product access|Product create|Product edit|Product delete', ['only' => ['index']]);
+        // $this->middleware('role_or_permission:Product create', ['only' => ['create','store']]);
+        // $this->middleware('role_or_permission:Product edit', ['only' => ['edit','update']]);
+        // $this->middleware('role_or_permission:Product delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,11 +25,9 @@ class productController extends Controller
     public function index(Request $request)
     {
         $products = Product::select('*');
-        $categories = Category::all();
-        $configs = Config::all();
         $products->orderBy('id', 'desc');
         $products = $products->paginate(8);
-        return view('Backend.products.index', compact('products', 'categories','configs'));
+        return view('Backend.products.index', compact('products',));
     }
 
     /**
@@ -34,7 +39,7 @@ class productController extends Controller
     {
         $categories = Category::all();
         $configs = Config::all();
-        return view('Backend.products.add', compact('categories', 'configs'));
+        return view('Backend.products.add', compact('configs','categories'));
     }
 
     /**
@@ -45,6 +50,7 @@ class productController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($_REQUEST);
         $objproduct = new Product;
         $objproduct->name = $request->name;
         $objproduct->price = $request->price;

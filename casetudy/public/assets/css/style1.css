@@ -3165,7 +3165,7 @@ table.dataTable {
 }
 
 .sidebar .logo {
-    margin: 30px;
+    margin: -10px;
     background: #fff;
     border-radius: 7px;
     padding-bottom: 0px

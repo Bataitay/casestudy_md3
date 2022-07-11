@@ -19,10 +19,10 @@
     <img src="{{ asset('assets/img/menu-icon/2.svg') }}" alt="">
     <span>Giao diện</span>
     </a>
-    <ul>
+    {{-- <ul>
     <li><a href="login.html">Login</a></li>
     <li><a href="resister.html">Register</a></li>
-    </ul>
+    </ul> --}}
     </li>
     <li class="">
     <a class="has-arrow" href="{{ route('category.index') }}" >
@@ -45,7 +45,7 @@
     <li class="">
     <a class="has-arrow" href="#" aria-expanded="false">
     <img src="{{ asset('assets/img/menu-icon/6.svg') }}" alt="">
-    <span>Data Khách hàng</span>
+    <span>Khách hàng</span>
     </a>
     </li>
     <li class="">
@@ -55,14 +55,14 @@
     </a>
     </li>
     <li class="">
-    <a class="has-arrow" href="{{ route('home.index') }}" aria-expanded="false">
+    <a class="has-arrow" href="{{ route('permission.index') }}" aria-expanded="false">
     <img src="{{ asset('assets/img/menu-icon/8.svg') }}" alt="">
     <span>Cấp quyền</span>
     </a>
-    <ul>
+    {{-- <ul>
     <li><a href="data_table.html">Data Tables</a></li>
     <li><a href="bootstrap_table.html">Grid Tables</a></li>
-    </ul>
+    </ul> --}}
     </li>
     <li class="">
     <a class="has-arrow" href="/chat" aria-expanded="false">
@@ -77,14 +77,14 @@
     </a>
     </li>
     <li class="">
-    <a class="has-arrow" href="#" aria-expanded="false">
+    <a class="has-arrow" href="{{ route('roles.index') }}" aria-expanded="false">
     <img src="{{ asset('assets/img/menu-icon/map.svg') }}" alt="">
-    <span>Maps</span>
+    <span>Vai trò</span>
     </a>
-    <ul>
+    {{-- <ul>
     <li><a href="mapjs.html">Maps JS</a></li>
     <li><a href="vector_map.html">Vector Maps</a></li>
-    </ul>
+    </ul> --}}
     </li>
     </ul>
     </nav>

@@ -24,4 +24,5 @@
         "beyondcode/laravel-websockets": "^1.12",
         "pusher/pusher-php-serve": "^5.0"
     }
+
 }

@@ -5,33 +5,33 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="dashboard_header_title">
-                        <h5> Chúc {{ Auth::user()->name ?? 'user_name'}} một ngày làm việc vui vẻ!</h5>
+                        <h5> Chúc {{ Auth::user()->name ?? 'user_name' }} một ngày làm việc vui vẻ!</h5>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="dashboard_breadcam text-end">
-                        <p><a href="index.html">Nhân viên</a> <i class="fas fa-caret-right"></i> Address Book</p>
+                        <p><a href="">Nhân viên</a> <i class="fas fa-caret-right"></i> Address Book</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-      <div class="container">
+    <div class="container">
         <div class="row my-5">
             <div class="col-lg-12">
                 <div class="card shadow">
                     <div class="card-header bg-secondary  d-flex justify-content-between align-items-center">
                         <h3 class="text-light">Quản lý Nhân viên</h3>
                         <div class="card-btn">
-                            <button class="btn btn-light" style="--clr:#ff1867" data-bs-toggle="modal"
-                                data-bs-target="#addemployeeModal"></i><span>Thêm </span><i></i>
-                            </button>
+                            @can('Employee create')
+                                <a href="{{ route('employee.create') }}" class="btn btn-light"></i><span>Thêm </span><i></i>
+                                @endcan
+                            </a>
                         </div>
-                        @include('Backend.employees.add')
                     </div>
 
-                    <div class="card-body" id="show_all_employees">
-                        <div class="card-body" id="show_all_employees">
+                    <div class="card-body" id="all_employees">
+                        <div class="card-body" id="all_employees">
                             @if (Session::has('message'))
                                 <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
                                     class="col-sm-6 alert alert-success">
@@ -43,28 +43,35 @@
                                     <tr>
                                         <th class=" text-danger ">Mã nhân viên</th>
                                         <th>Tên</th>
-                                        <th>chức vụ</th>
+                                        <th>vai trò</th>
                                         <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody id="myTable">
                                     @if ($employees->count() > 0)
-                                    @foreach ($employees as $employee)
-
-                                        <tr class="item-{{ $employee->id }}">
-                                            <td>{{ $employee->id }}</td>
-                                            <td>{{ $employee->name }}</td>
-                                            <td></td>
-                                            <td class="">
-                                                <a href=""><i class="bi bi-eye h4"></i></a>
-                                                <a href="#" id="{{ $employee->id }}"
-                                                    class="text-danger mx-1 deleteIcon"><i class="bi-trash h4 h4"></i></a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                        @foreach ($employees as $employee)
+                                            <tr class="item-{{ $employee->id }}">
+                                                <td>{{ $employee->id }}</td>
+                                                <td>{{ $employee->name }}</td>
+                                                    @foreach ($employee->roles as $role)
+                                                        <td>{{ $role->name}}</td>
+                                                    @endforeach
+                                                <td class="">
+                                                    @can('Employee update')
+                                                        <a href="{{ route('employee.edit', $employee->id) }}"><i
+                                                                class="bi-pencil-square h4"></i></a>
+                                                    @endcan
+                                                    @can('Employee delete')
+                                                        <a href="#" id="{{ $employee->id }}"
+                                                            class="text-danger mx-1 deleteIcon"><i
+                                                                class="bi-trash h4 h4"></i></a>
+                                                    @endcan
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     @else
-                                    <h5 class="text-center text-secondary my-5">No record present in the database!</h5>;
-                                @endif
+                                        <h5 class="text-center text-secondary my-5">No record present in the database!</h5>;
+                                    @endif
                                 </tbody>
                             </table>
                             {{-- {{ $employees->appends(request()->query()) }} --}}
@@ -79,7 +86,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-            $(document).on('click', '.deleteIcon', function(e) {
+        $(document).on('click', '.deleteIcon', function(e) {
             e.preventDefault();
             let id = $(this).attr('id');
             let csrf = '{{ csrf_token() }}';
